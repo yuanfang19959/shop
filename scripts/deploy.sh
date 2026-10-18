@@ -15,6 +15,10 @@ git fetch origin "${BRANCH}"
 git checkout "${BRANCH}"
 git pull --ff-only origin "${BRANCH}"
 
+# 锁文件是 pnpm 8.6.1 的 lockfileVersion 6.1，pnpm 9 无法冻结安装。
+corepack enable
+corepack prepare pnpm@8.6.1 --activate
+
 pnpm install --frozen-lockfile
 pnpm build
 

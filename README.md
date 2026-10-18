@@ -43,7 +43,7 @@ pnpm test:e2e
 - 切到中文后刷新，标题仍是「给海外生活的器物。」，再切回英文。
 - 390×844：展开搜索搜 flask，从底部购物袋条打开后能看到 Trail Flask。
 
-**CI/CD。** `.github/workflows/ci.yml` 在推送到 `main`、向 `main` 提 Pull Request，或手动触发时运行。同一分支上新的一次会取消还在跑的检查。四项检查并行，都用 pnpm 9.15.0 和 Node.js 20，安装命令是 `pnpm install --frozen-lockfile`：
+**CI/CD。** `.github/workflows/ci.yml` 在推送到 `main`、向 `main` 提 Pull Request，或手动触发时运行。同一分支上新的一次会取消还在跑的检查。四项检查并行，都用 pnpm 8.6.1 和 Node.js 20，安装命令是 `pnpm install --frozen-lockfile`。锁文件是 `lockfileVersion: 6.1`，由 pnpm 8.6.1 生成；pnpm 9 会把它当成过期锁文件，冻结安装会直接失败。服务器上的 `scripts/deploy.sh` 会用 corepack 切到 pnpm 8.6.1 再安装：
 
 - `build`：执行 `pnpm build`。
 - `audit`：执行 `pnpm audit --audit-level high`，高危及以上漏洞会使流水线失败。

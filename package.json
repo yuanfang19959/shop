@@ -1,6 +1,7 @@
 {
   "name": "atlas-house",
   "private": true,
+  "packageManager": "pnpm@8.6.1",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
