@@ -30,7 +30,7 @@ pnpm test:e2e
 
 ### 2026-10-18
 
-**图片资源。** `public/products/` 里 13 张商品 JPEG 的宽高和文件名都没改，只重新压缩了体积。合计从 1,811,968 字节降到 1,226,569 字节，少了约 32%（约 572 KB）。降幅最大的是 `arc-lamp.jpg`（96,380 → 45,960，约 52%）和 `candle.jpg`（183,979 → 88,552，约 52%）；`journal.jpg` 只少了约 4%（144,905 → 138,942）。图片文件仍在 `./public/products/`。站点对外地址是 `/shop/`，构建时 Vite 会把这些文件复制到 `dist/products/`，页面里的地址因此是 `/shop/products/…`。
+**图片资源。** `public/products/` 里 13 张商品 JPEG 的宽高和文件名都没改，只重新压缩了体积。合计从 1,811,968 字节降到 1,226,569 字节，少了约 32%（约 572 KB）。降幅最大的是 `arc-lamp.jpg`（96,380 → 45,960，约 52%）和 `candle.jpg`（183,979 → 88,552，约 52%）；`journal.jpg` 只少了约 4%（144,905 → 138,942）。图片文件仍在 `./public/products/`。页面使用同名 WebP（质量 80，茶图为 70），JPEG 仍保留。站点对外地址是 `/shop/`，构建时 Vite 会把这些文件复制到 `dist/products/`。
 
 **测试用例。** 新增 `e2e/shop.spec.js` 和 `playwright.config.js`。`pnpm test:e2e` 会在 `127.0.0.1:5173` 执行 `pnpm dev`，桌面视口 1280×800；在 CI 里失败会重试 2 次。依赖为 `@playwright/test` 1.64.1，Vite 从 6.3.5 调到 6.4.4。`.gitignore` 忽略 `test-results`、`playwright-report`、`blob-report`、`playwright/.cache`。八条用例分别锁住：
 

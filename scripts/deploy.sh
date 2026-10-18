@@ -32,6 +32,6 @@ pm2 save
 
 sleep 2
 curl -sf "http://127.0.0.1:${WEB_PORT}/shop/" >/dev/null
-curl -sf -o /dev/null -w "%{content_type}" "http://127.0.0.1:${WEB_PORT}/shop/products/linen-throw.jpg" | grep -q image/jpeg
+curl -sf -o /dev/null -w "%{content_type}" "http://127.0.0.1:${WEB_PORT}/shop/products/linen-throw.webp" | grep -q image/webp
 echo "==> Deploy finished"
 pm2 status
