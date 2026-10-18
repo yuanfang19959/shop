@@ -22,20 +22,16 @@ corepack prepare pnpm@8.6.1 --activate
 pnpm install --frozen-lockfile
 pnpm build
 
-export PM2_SERVE_PATH="${ROOT}/dist"
-export PM2_SERVE_PORT="${WEB_PORT}"
-export PM2_SERVE_SPA=true
-export PM2_SERVE_HOMEPAGE=/index.html
+export DEPLOY_WEB_PORT="${WEB_PORT}"
 
 if pm2 describe "${PM2_WEB}" >/dev/null 2>&1; then
-  pm2 reload "${PM2_WEB}" --update-env
-else
-  echo "==> PM2 app ${PM2_WEB} not found, starting"
-  pm2 start "${ROOT}/ecosystem.config.js" --only "${PM2_WEB}" --update-env
+  pm2 delete "${PM2_WEB}"
 fi
+pm2 start "${ROOT}/ecosystem.config.js" --only "${PM2_WEB}" --update-env
 pm2 save
 
 sleep 2
-curl -sf "http://127.0.0.1:${WEB_PORT}/" >/dev/null
+curl -sf "http://127.0.0.1:${WEB_PORT}/shop/" >/dev/null
+curl -sf -o /dev/null -w "%{content_type}" "http://127.0.0.1:${WEB_PORT}/shop/products/linen-throw.jpg" | grep -q image/jpeg
 echo "==> Deploy finished"
 pm2 status

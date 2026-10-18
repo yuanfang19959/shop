@@ -5,6 +5,8 @@ const detail = (enLabel, zhLabel, enValue, zhValue) => ({
 
 export const CATEGORIES = ['All', 'Home', 'Kitchen', 'Apparel', 'Travel', 'Wellness'];
 
+const productImage = (file) => `${import.meta.env.BASE_URL}products/${file}`;
+
 export const products = [
   {
     id: 'linen',
@@ -14,7 +16,7 @@ export const products = [
     featured: 0,
     badge: { en: 'House favorite', zh: '店内最爱' },
     tone: 'sand',
-    image: '/products/linen-throw.jpg',
+    image: productImage('linen-throw.jpg'),
     blurb: {
       en: 'A washed linen duvet in chalk white — the piece we pack most often.',
       zh: '粉笔白水洗亚麻被套，是我们寄出最多的一件。',
@@ -37,7 +39,7 @@ export const products = [
     price: 78,
     featured: 1,
     tone: 'clay',
-    image: '/products/cups.jpg',
+    image: productImage('cups.jpg'),
     blurb: {
       en: 'A large speckled vessel with smaller cups for tea or coffee.',
       zh: '一只斑点大杯，配几只小杯，喝茶或咖啡都行。',
@@ -60,7 +62,7 @@ export const products = [
     price: 118,
     featured: 2,
     tone: 'sand',
-    image: '/products/wrap.jpg',
+    image: productImage('wrap.jpg'),
     blurb: {
       en: 'An open-knit wrap in undyed cotton, light enough for a cool evening.',
       zh: '未染色棉线的镂空披肩，凉晚上搭一件就够。',
@@ -83,7 +85,7 @@ export const products = [
     price: 42,
     featured: 3,
     tone: 'pine',
-    image: '/products/flask.jpg',
+    image: productImage('flask.jpg'),
     blurb: {
       en: '600 ml, matte forest green, and quiet inside a commute bag.',
       zh: '600 毫升，雾面森林绿，放进通勤包里不吵。',
@@ -106,7 +108,7 @@ export const products = [
     price: 186,
     featured: 4,
     tone: 'ink',
-    image: '/products/arc-lamp.jpg',
+    image: productImage('arc-lamp.jpg'),
     blurb: {
       en: 'A graphite arc for a reading chair, with a shade that aims the light.',
       zh: '石墨色弧形落地灯，灯罩可以把光对准阅读的位置。',
@@ -130,7 +132,7 @@ export const products = [
     compareAt: 186,
     featured: 5,
     tone: 'sand',
-    image: '/products/sunglasses.jpg',
+    image: productImage('sunglasses.jpg'),
     blurb: {
       en: 'Thin gold-tone metal and grey-green lenses.',
       zh: '细金边金属框，灰绿镜片。',
@@ -154,7 +156,7 @@ export const products = [
     featured: 6,
     badge: { en: 'New', zh: '新品' },
     tone: 'clay',
-    image: '/products/boots.jpg',
+    image: productImage('boots.jpg'),
     options: {
       label: { en: 'Size', zh: '尺码' },
       values: ['36', '37', '38', '39', '40', '41', '42', '43', '44', '45'],
@@ -181,7 +183,7 @@ export const products = [
     price: 28,
     featured: 7,
     tone: 'clay',
-    image: '/products/olive.jpg',
+    image: productImage('olive.jpg'),
     blurb: {
       en: 'A glass cruet of early-harvest oil for finishing, not frying.',
       zh: '玻璃油壶装的早收橄榄油，用来浇在成品上，不适合油炸。',
@@ -204,7 +206,7 @@ export const products = [
     price: 64,
     featured: 8,
     tone: 'sand',
-    image: '/products/plates.jpg',
+    image: productImage('plates.jpg'),
     blurb: {
       en: 'Four pale blue plates with an uneven, handmade rim.',
       zh: '四只淡蓝餐盘，盘沿有手工的不规则。',
@@ -227,7 +229,7 @@ export const products = [
     price: 92,
     featured: 9,
     tone: 'sand',
-    image: '/products/vases.jpg',
+    image: productImage('vases.jpg'),
     blurb: {
       en: 'Three speckled bottle vases, short enough for a table.',
       zh: '三只斑点瓶形花器，高度适合餐桌。',
@@ -250,7 +252,7 @@ export const products = [
     price: 36,
     featured: 10,
     tone: 'ink',
-    image: '/products/journal.jpg',
+    image: productImage('journal.jpg'),
     blurb: {
       en: 'A compact hardcover for lists, addresses, and the odd sketch.',
       zh: '小开本精装，用来记清单、地址，或者随手画两笔。',
@@ -273,7 +275,7 @@ export const products = [
     price: 26,
     featured: 11,
     tone: 'pine',
-    image: '/products/tea.jpg',
+    image: productImage('tea.jpg'),
     blurb: {
       en: 'Eight teas in one box, from chamomile to a dark black.',
       zh: '一盒八种散茶，从洋甘菊到红茶。',
@@ -297,7 +299,7 @@ export const products = [
     compareAt: 42,
     featured: 12,
     tone: 'clay',
-    image: '/products/candle.jpg',
+    image: productImage('candle.jpg'),
     blurb: {
       en: 'Soy wax in clear glass, a cotton wick, and a quiet scent.',
       zh: '透明玻璃杯里的大豆蜡，棉芯，香气很淡。',

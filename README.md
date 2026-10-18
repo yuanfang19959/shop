@@ -30,7 +30,7 @@ pnpm test:e2e
 
 ### 2026-10-18
 
-**图片资源。** `public/products/` 里 13 张商品 JPEG 的宽高和文件名都没改，只重新压缩了体积。合计从 1,811,968 字节降到 1,226,569 字节，少了约 32%（约 572 KB）。降幅最大的是 `arc-lamp.jpg`（96,380 → 45,960，约 52%）和 `candle.jpg`（183,979 → 88,552，约 52%）；`journal.jpg` 只少了约 4%（144,905 → 138,942）。`catalog.js` 里的图片路径没有动。
+**图片资源。** `public/products/` 里 13 张商品 JPEG 的宽高和文件名都没改，只重新压缩了体积。合计从 1,811,968 字节降到 1,226,569 字节，少了约 32%（约 572 KB）。降幅最大的是 `arc-lamp.jpg`（96,380 → 45,960，约 52%）和 `candle.jpg`（183,979 → 88,552，约 52%）；`journal.jpg` 只少了约 4%（144,905 → 138,942）。图片文件仍在 `./public/products/`。站点对外地址是 `/shop/`，构建时 Vite 会把这些文件复制到 `dist/products/`，页面里的地址因此是 `/shop/products/…`。
 
 **测试用例。** 新增 `e2e/shop.spec.js` 和 `playwright.config.js`。`pnpm test:e2e` 会在 `127.0.0.1:5173` 执行 `pnpm dev`，桌面视口 1280×800；在 CI 里失败会重试 2 次。依赖为 `@playwright/test` 1.64.1，Vite 从 6.3.5 调到 6.4.4。`.gitignore` 忽略 `test-results`、`playwright-report`、`blob-report`、`playwright/.cache`。八条用例分别锁住：
 
@@ -50,7 +50,7 @@ pnpm test:e2e
 - `secrets`：安装 gitleaks 8.28.0，对全部提交历史执行 `gitleaks detect --source . --redact`。
 - `e2e`：安装 Chromium 及系统依赖后执行 `pnpm test:e2e`。
 
-四项都通过，并且不是 Pull Request 时，`deploy` 才跑。它使用仓库 `production` 环境，经 `appleboy/ssh-action` 1.2.2 SSH 到 ECS，超时 30 分钟。同一时间只允许一次生产部署。密钥为 `DEPLOY_HOST`、`DEPLOY_USER`、`DEPLOY_SSH_KEY`；`DEPLOY_PORT` 默认 22，`DEPLOY_PATH` 默认 `~/shop`。服务器上先 `git fetch origin main` 再 `git reset --hard origin/main`，然后执行 `scripts/deploy.sh`：快进拉取 `main`、按锁文件安装、`pnpm build`，已有 PM2 进程 `shop` 就 `pm2 reload`，没有则按 `ecosystem.config.js` 启动。`dist` 由 `serve` 以单页应用托管在 3001 端口，内存超过 300MB 会重启。脚本最后请求 `http://127.0.0.1:3001/`，失败则这次部署失败。`.gitattributes` 规定 `*.sh` 使用 LF，保证 `deploy.sh` 在 Linux 上能执行。
+四项都通过，并且不是 Pull Request 时，`deploy` 才跑。它使用仓库 `production` 环境，经 `appleboy/ssh-action` 1.2.2 SSH 到 ECS，超时 30 分钟。同一时间只允许一次生产部署。密钥为 `DEPLOY_HOST`、`DEPLOY_USER`、`DEPLOY_SSH_KEY`；`DEPLOY_PORT` 默认 22，`DEPLOY_PATH` 默认 `~/shop`。服务器上先 `git fetch origin main` 再 `git reset --hard origin/main`，然后执行 `scripts/deploy.sh`：快进拉取 `main`、按锁文件安装、`pnpm build`，按 `ecosystem.config.js` 重新启动 PM2 进程 `shop`。`scripts/serve-shop.mjs` 把 `dist` 挂在 `/shop/`、端口 3001，与 Nginx 的 `location /shop/` 对齐。内存超过 300MB 会重启。脚本最后请求 `http://127.0.0.1:3001/shop/` 和一张商品图，失败则这次部署失败。`.gitattributes` 规定 `*.sh` 使用 LF，保证 `deploy.sh` 在 Linux 上能执行。
 
 ## 可以做什么
 
