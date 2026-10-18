@@ -31,12 +31,12 @@ test('可以按关键词、分类和价格筛选', async ({ page }) => {
   await expect(article(page, 'Chalk Linen Bedding')).toHaveCount(0);
 
   await page.getByRole('button', { name: 'All', exact: true }).click();
-  await page.getByLabel('Price').selectOption('under50');
+  await page.getByRole('combobox', { name: 'Price', exact: true }).selectOption('under50');
   await expect(article(page, 'Trail Flask')).toBeVisible();
   await expect(article(page, 'Arc Floor Lamp')).toHaveCount(0);
 
-  await page.getByLabel('Price').selectOption('all');
-  await page.getByLabel('Sort').selectOption('priceDesc');
+  await page.getByRole('combobox', { name: 'Price', exact: true }).selectOption('all');
+  await page.getByRole('combobox', { name: 'Sort', exact: true }).selectOption('priceDesc');
   await expect(page.locator('.card .name').first()).toHaveText('Chestnut Ankle Boots');
 });
 
@@ -53,9 +53,11 @@ test('购物袋按国家和满额规则计算运费，刷新后仍在', async ({
   await bag.getByLabel('Ship to').selectOption('AU');
   await expect(bag.getByRole('button', { name: /Checkout/ })).toContainText('$46');
 
-  await bag.getByRole('button', { name: 'Increase quantity' }).click();
+  await page.keyboard.press('Escape');
+  await page.getByRole('button', { name: 'Add to bag', exact: true }).click();
+  await page.getByRole('button', { name: 'Bag, 2 items' }).click();
   await expect(bag.getByText('Free worldwide shipping on this order.')).toBeVisible();
-  await expect(bag.getByRole('button', { name: /Checkout/ })).toContainText('$56');
+  await expect(bag.getByRole('button', { name: /Checkout/ })).toContainText('$176');
 
   await page.reload();
   await expect(page.getByRole('button', { name: 'Bag, 2 items' })).toBeVisible();
