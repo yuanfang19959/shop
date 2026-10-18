@@ -50,7 +50,7 @@ pnpm test:e2e
 - `secrets`：安装 gitleaks 8.28.0，对全部提交历史执行 `gitleaks detect --source . --redact`。
 - `e2e`：安装 Chromium 及系统依赖后执行 `pnpm test:e2e`。
 
-四项都通过，并且不是 Pull Request 时，`deploy` 才跑。它使用仓库 `production` 环境，经 `appleboy/ssh-action` 1.2.2 SSH 到 ECS，超时 30 分钟。同一时间只允许一次生产部署。密钥为 `DEPLOY_HOST`、`DEPLOY_USER`、`DEPLOY_SSH_KEY`；`DEPLOY_PORT` 默认 22，`DEPLOY_PATH` 默认 `~/shop`。服务器上先 `git fetch origin main` 再 `git reset --hard origin/main`，然后执行 `scripts/deploy.sh`：快进拉取 `main`、按锁文件安装、`pnpm build`，按 `ecosystem.config.js` 重新启动 PM2 进程 `shop`。`scripts/serve-shop.mjs` 把 `dist` 挂在 `/shop/`、端口 3001，与 Nginx 的 `location /shop/` 对齐。内存超过 300MB 会重启。脚本最后请求 `http://127.0.0.1:3001/shop/` 和一张商品图，失败则这次部署失败。`.gitattributes` 规定 `*.sh` 使用 LF，保证 `deploy.sh` 在 Linux 上能执行。
+四项都通过，并且不是 Pull Request 时，`deploy` 才跑。它使用仓库 `production` 环境，经 `appleboy/ssh-action` 1.2.2 SSH 到 ECS，超时 30 分钟。同一时间只允许一次生产部署。密钥为 `DEPLOY_HOST`、`DEPLOY_USER`、`DEPLOY_SSH_KEY`；`DEPLOY_PORT` 默认 22，`DEPLOY_PATH` 默认 `~/shop`。服务器上先 `git fetch origin main` 再 `git reset --hard origin/main`，然后执行 `scripts/deploy.sh`：快进拉取 `main`、按锁文件安装、`pnpm build`，按 `ecosystem.config.cjs` 重新启动 PM2 进程 `shop`。`scripts/serve-shop.mjs` 把 `dist` 挂在 `/shop/`、端口 3001，与 Nginx 的 `location /shop/` 对齐。内存超过 300MB 会重启。脚本最后请求 `http://127.0.0.1:3001/shop/` 和一张商品图，失败则这次部署失败。`.gitattributes` 规定 `*.sh` 使用 LF，保证 `deploy.sh` 在 Linux 上能执行。
 
 ## 可以做什么
 

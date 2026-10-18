@@ -27,7 +27,7 @@ export DEPLOY_WEB_PORT="${WEB_PORT}"
 if pm2 describe "${PM2_WEB}" >/dev/null 2>&1; then
   pm2 delete "${PM2_WEB}"
 fi
-pm2 start "${ROOT}/ecosystem.config.js" --only "${PM2_WEB}" --update-env
+pm2 start "${ROOT}/ecosystem.config.cjs" --only "${PM2_WEB}" --update-env
 pm2 save
 
 sleep 2
